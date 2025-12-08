@@ -20,13 +20,17 @@
     <ion-list-header>
       Naposledy hledaná města
     </ion-list-header>
-
-    <ion-item *ngFor="let city of history">
+  
+    <ion-item
+      *ngFor="let city of history"
+      button
+      (click)="selectFromHistory(city)">
       <ion-label>
         {{ city }}
       </ion-label>
     </ion-item>
   </ion-list>
+  
 
   <ion-button
     expand="block"

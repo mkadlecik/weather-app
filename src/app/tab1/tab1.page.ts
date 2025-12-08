@@ -5,6 +5,7 @@ import { WeatherService } from '../services/weather.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { StorageService } from '../services/storage.service';
+import { CitySelectionService } from '../services/city-selection.service';
 
 
 @Component({
@@ -23,8 +24,15 @@ export class Tab1Page {
 
   constructor(
     private weatherService: WeatherService,
-    private storageService: StorageService
-  ) {}
+    private storageService: StorageService,
+    private citySelectionService: CitySelectionService
+  ) {
+    this.citySelectionService.selectedCity$.subscribe((city) => {
+      console.log('Tab1: selected city from history =', city);
+      this.city = city;
+      this.searchCity();
+    });
+  }
 
   onCityInput(event: any) {
     const value = event.detail?.value ?? '';

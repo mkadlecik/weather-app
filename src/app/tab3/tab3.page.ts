@@ -3,6 +3,8 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonSpinner, IonLi
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { StorageService } from '../services/storage.service';
 import { CommonModule } from '@angular/common';
+import { CitySelectionService } from '../services/city-selection.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab3',
@@ -17,7 +19,11 @@ export class Tab3Page implements OnInit {
   loading = false;
   error: string | null = null;
 
-  constructor(private storageService: StorageService) {}
+  constructor(
+    private storageService: StorageService,
+    private citySelectionService: CitySelectionService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadHistory();
@@ -55,4 +61,10 @@ export class Tab3Page implements OnInit {
       this.loading = false;
     }
   }
+
+  selectFromHistory(city: string) {
+    this.citySelectionService.selectCity(city);
+    this.router.navigate(['tabs/tab1'])
+  }
+  
 }

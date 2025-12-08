@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
 const HISTORY_KEY = 'search_history';
+const FAVORITES_KEY = 'favorite_cities';
 
 @Injectable({
   providedIn: 'root'
@@ -55,4 +56,44 @@ export class StorageService {
     await this.ensureReady();
     await this.storage.remove(HISTORY_KEY);
   }
+
+
+async getFavorites(): Promise<string[]> {
+  await this.ensureReady();
+  const favorites = await this.storage.get(FAVORITES_KEY);
+  return favorites || [];
+}
+
+async addFavorite(city: string): Promise<void> {
+  const trimmed = city.trim();
+  if (!trimmed) {
+    return;
+  }
+
+  const favorites = await this.getFavorites();
+
+  // pokud už tam je, nic neměň
+  const exists = favorites.some(c => c.toLowerCase() === trimmed.toLowerCase());
+  if (exists) {
+    return;
+  }
+
+  favorites.unshift(trimmed);
+  await this.storage.set(FAVORITES_KEY, favorites);
+}
+
+async removeFavorite(city: string): Promise<void> {
+  const trimmed = city.trim();
+  const favorites = await this.getFavorites();
+  const filtered = favorites.filter(c => c.toLowerCase() !== trimmed.toLowerCase());
+  await this.storage.set(FAVORITES_KEY, filtered);
+}
+
+async isFavorite(city: string): Promise<boolean> {
+  const trimmed = city.trim();
+  if (!trimmed) return false;
+
+  const favorites = await this.getFavorites();
+  return favorites.some(c => c.toLowerCase() === trimmed.toLowerCase());
+}
 }

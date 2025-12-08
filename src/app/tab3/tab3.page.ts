@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonText, IonSpinner, IonList, IonListHeader, IonItem, IonLabel, IonButton } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { StorageService } from '../services/storage.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tab3',
+  standalone: true,
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent],
+  imports: [IonButton, IonLabel, IonItem, IonListHeader, IonList, IonSpinner, IonText, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule],
 })
 export class Tab3Page implements OnInit {
 
@@ -17,7 +19,11 @@ export class Tab3Page implements OnInit {
 
   constructor(private storageService: StorageService) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.loadHistory();
+  }
+
+  ionViewWillEnter() {
     this.loadHistory();
   }
 

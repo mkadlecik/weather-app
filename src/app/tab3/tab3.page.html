@@ -1,17 +1,40 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
+    <ion-title>Historie hledání</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-text color="medium" *ngIf="!history.length && !loading">
+    <p>Zatím žádná historie. Zkus vyhledat nějaké město na prvním tabu.</p>
+  </ion-text>
+
+  <ion-spinner *ngIf="loading" class="ion-margin-top"></ion-spinner>
+
+  <ion-text color="danger" *ngIf="error">
+    <p class="ion-margin-top">{{ error }}</p>
+  </ion-text>
+
+  <ion-list *ngIf="history.length && !loading">
+    <ion-list-header>
+      Naposledy hledaná města
+    </ion-list-header>
+
+    <ion-item *ngFor="let city of history">
+      <ion-label>
+        {{ city }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button
+    expand="block"
+    color="medium"
+    class="ion-margin-top"
+    (click)="clearHistory()"
+    [disabled]="!history.length || loading">
+    Smazat historii
+  </ion-button>
+
 </ion-content>

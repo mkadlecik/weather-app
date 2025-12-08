@@ -8,7 +8,7 @@ import { WeatherService } from '../services/weather.service';
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonList, IonSpinner, IonText, IonButton, IonInput, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule, JsonPipe]
+  imports: [IonList, IonSpinner, IonText, IonButton, IonInput, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule]
 })
 export class Tab2Page {
   city: string = '';

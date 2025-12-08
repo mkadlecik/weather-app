@@ -4,6 +4,7 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
 import { WeatherService } from '../services/weather.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { StorageService } from '../services/storage.service';
 
 
 @Component({
@@ -20,7 +21,10 @@ export class Tab1Page {
   error: string | null = null;
   currentWeather: any = null;
 
-  constructor(private weatherService: WeatherService) {}
+  constructor(
+    private weatherService: WeatherService,
+    private storageService: StorageService
+  ) {}
 
   onCityInput(event: any) {
     const value = event.detail?.value ?? '';
@@ -43,10 +47,17 @@ export class Tab1Page {
 
     this.weatherService.getCurrentWeather(this.city.trim())
       .subscribe({
-        next: (data) => {
+        next: async (data) => {
           console.log('API odpověď:', data);
           this.currentWeather = data;
           this.loading = false;
+        
+          // ulozeni mesta do historie
+          try {
+            await this.storageService.addToHistory(this.city.trim());
+          } catch (e) {
+            console.error('Chyba při ukládání do historie:', e);
+          }
         },
         error: (err) => {
           console.error('Chyba API:', err);

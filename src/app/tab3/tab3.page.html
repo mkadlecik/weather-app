@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Historie hledání</ion-title>
+    <ion-title>Oblíbené & Historie</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <ion-text color="medium" *ngIf="!history.length && !loading">
-    <p>Zatím žádná historie. Zkus vyhledat nějaké město na prvním tabu.</p>
+  <ion-text color="medium" *ngIf="!favorites.length && !history.length && !loading">
+    <p>Zatím žádná oblíbená města ani historie. Vyhledej nějaké město na prvním tabu.</p>
   </ion-text>
 
   <ion-spinner *ngIf="loading" class="ion-margin-top"></ion-spinner>
@@ -16,21 +16,36 @@
     <p class="ion-margin-top">{{ error }}</p>
   </ion-text>
 
+  <!-- OBLÍBENÉ -->
+  <ion-list *ngIf="favorites.length && !loading">
+    <ion-list-header>
+      Oblíbená města
+    </ion-list-header>
+
+    <ion-item *ngFor="let city of favorites" button (click)="selectFromFavorites(city)">
+      <ion-label>
+        {{ city }}
+      </ion-label>
+
+      <!-- tlačítko pro smazání z oblíbených -->
+      <ion-button fill="clear" slot="end" (click)="removeFavorite(city); $event.stopPropagation()">
+        <ion-icon [icon]="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- HISTORIE -->
   <ion-list *ngIf="history.length && !loading">
     <ion-list-header>
       Naposledy hledaná města
     </ion-list-header>
-  
-    <ion-item
-      *ngFor="let city of history"
-      button
-      (click)="selectFromHistory(city)">
+
+    <ion-item *ngFor="let city of history" button (click)="selectFromFavorites(city)">
       <ion-label>
         {{ city }}
       </ion-label>
     </ion-item>
   </ion-list>
-  
 
   <ion-button
     expand="block"

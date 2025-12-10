@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonText, IonSpinner, IonList, IonSearchbar } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../explore-container/explore-container.component';
-import { CommonModule, JsonPipe } from '@angular/common';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonText, IonSpinner, IonList, IonSearchbar, IonThumbnail } from '@ionic/angular/standalone';
+import { CommonModule, DatePipe} from '@angular/common';
 import { WeatherService } from '../services/weather.service';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonSearchbar, IonList, IonSpinner, IonText, IonButton, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule]
+  imports: [IonSearchbar, IonList, IonSpinner, IonText, IonButton, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule, IonThumbnail]
 })
 export class Tab2Page {
   city: string = '';
   loading = false;
   error: string | null = null;
   forecastList: any[] = [];
+
+  groupedForecast: { date: string, items: any[] }[] = [];
 
   constructor(private weatherService: WeatherService) {}
 
@@ -36,6 +37,7 @@ export class Tab2Page {
 
     this.loading = true;
     this.forecastList = [];
+    this.groupedForecast = [];
 
     this.weatherService.getForecast(this.city.trim())
       .subscribe({
@@ -43,6 +45,7 @@ export class Tab2Page {
           console.log('Forecast data:', data);
           // OpenWeather vrací pole v data.list
           this.forecastList = data.list || [];
+          this.groupForecastByDay();
           this.loading = false;
         },
         error: (err) => {
@@ -51,5 +54,22 @@ export class Tab2Page {
           this.loading = false;
         }
       });
-  }
+    }
+      private groupForecastByDay() {
+        const map = new Map<string, any[]>();
+    
+        for (const item of this.forecastList) {
+          // OpenWeather poskytuje dt_txt jako "YYYY-MM-DD HH:mm:ss"
+          const dtTxt: string = item.dt_txt ?? '';
+          const day = dtTxt.split(' ')[0]; // "YYYY-MM-DD"
+          if (!map.has(day)) map.set(day, []);
+          map.get(day)!.push(item);
+        }
+    
+        // transform to array and sort by date ascending
+        this.groupedForecast = Array.from(map.entries())
+          .map(([date, items]) => ({ date, items }))
+          .sort((a, b) => a.date.localeCompare(b.date));
+      }
+    
 }

@@ -3,4 +3,21 @@ ion-searchbar {
     --background: #ffffff;
     --color: #000;
   }
+
+  .day-header {
+    background: transparent;
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+  
+  .day-block {
+    border-radius: 8px;
+    background: rgba(0,0,0,0.03);
+    padding: 6px;
+  }
+  .muted {
+    color: var(--ion-color-medium);
+    font-size: 0.85rem;
+  }
+  
   

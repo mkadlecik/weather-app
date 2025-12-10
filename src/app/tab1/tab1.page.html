@@ -1,18 +1,17 @@
-<ion-header>
+<ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>Hledání lokality</ion-title>
+    <ion-title>Aktuální počasí</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content fullscreen="true" class="ion-padding">
 
   <ion-item>
-    <ion-label position="floating">Město</ion-label>
-    <ion-input
-      type="text"
-      placeholder="Např. Brno, Praha, Zlín"
-      (ionInput)="onCityInput($event)">
-    </ion-input>
+    <ion-searchbar
+      placeholder="Hledat město..."
+      (ionInput)="onCityInput($event)"
+      debounce="400">
+    </ion-searchbar>
   </ion-item>
 
   <ion-button expand="block" class="ion-margin-top" (click)="searchCity()">
@@ -48,6 +47,16 @@
     </ion-card-header>
   
     <ion-card-content>
+      <!-- icon -->
+      <img *ngIf="currentWeather.weather && currentWeather.weather.length"
+      [src]="'https://openweathermap.org/img/wn/' + currentWeather.weather[0].icon + '@4x.png'"
+      alt="weather icon"
+      class="weather-icon">
+
+      <div class="current-temp">
+      {{ currentWeather.main?.temp | number:'1.0-0' }}°C
+      </div>
+
       <p *ngIf="currentWeather.main">Teplota: {{ currentWeather.main.temp }} °C</p>
       <p *ngIf="currentWeather.main">Pocitově: {{ currentWeather.main.feels_like }} °C</p>
       <p *ngIf="currentWeather.main">Vlhkost: {{ currentWeather.main.humidity }} %</p>

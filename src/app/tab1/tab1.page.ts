@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonText, IonSpinner, IonCardHeader, IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonInput, IonIcon } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonText, IonSpinner, IonCardHeader, IonCard, IonCardTitle, IonCardSubtitle, IonCardContent, IonInput, IonIcon, IonSearchbar } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { WeatherService } from '../services/weather.service';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ import { star, starOutline } from 'ionicons/icons';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonIcon, IonInput, IonSpinner, IonText, IonButton, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, FormsModule, CommonModule, IonCardContent, IonCardSubtitle, IonCard, IonCardHeader, IonCardTitle],
+  imports: [IonSearchbar, IonIcon, IonSpinner, IonText, IonButton, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, FormsModule, CommonModule, IonCardContent, IonCardSubtitle, IonCard, IonCardHeader, IonCardTitle],
 })
 export class Tab1Page {
 

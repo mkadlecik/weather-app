@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonText, IonSpinner, IonList } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonText, IonSpinner, IonList, IonSearchbar } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { WeatherService } from '../services/weather.service';
@@ -8,7 +8,7 @@ import { WeatherService } from '../services/weather.service';
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonList, IonSpinner, IonText, IonButton, IonInput, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule]
+  imports: [IonSearchbar, IonList, IonSpinner, IonText, IonButton, IonLabel, IonItem, IonHeader, IonToolbar, IonTitle, IonContent, CommonModule]
 })
 export class Tab2Page {
   city: string = '';

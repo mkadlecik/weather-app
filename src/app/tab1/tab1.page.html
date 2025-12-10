@@ -31,18 +31,28 @@
       <ion-card-title>
         {{ currentWeather.name }}
       </ion-card-title>
-
-      <!-- podtitulek jen pokud existuje pole weather a má aspoň jednu položku -->
+  
       <ion-card-subtitle *ngIf="currentWeather.weather && currentWeather.weather.length">
         {{ currentWeather.weather[0].description }}
       </ion-card-subtitle>
-    </ion-card-header>
+  
+      <!-- tlačítko pro oblíbené -->
+      <ion-button
+          fill="clear"
+          size="small"
+          (click)="toggleFavorite()"
+          [disabled]="loading || !currentWeather">
+          <ion-icon [icon]="isFavorite ? star : starOutline"></ion-icon>
+      </ion-button>
 
+    </ion-card-header>
+  
     <ion-card-content>
       <p *ngIf="currentWeather.main">Teplota: {{ currentWeather.main.temp }} °C</p>
       <p *ngIf="currentWeather.main">Pocitově: {{ currentWeather.main.feels_like }} °C</p>
       <p *ngIf="currentWeather.main">Vlhkost: {{ currentWeather.main.humidity }} %</p>
     </ion-card-content>
   </ion-card>
+  
 
 </ion-content>

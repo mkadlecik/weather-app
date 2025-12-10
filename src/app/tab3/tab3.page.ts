@@ -66,5 +66,4 @@ export class Tab3Page implements OnInit {
     this.citySelectionService.selectCity(city);
     this.router.navigate(['tabs/tab1'])
   }
-  
 }

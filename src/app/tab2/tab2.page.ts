@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonText, IonSpinner, IonList, IonSearchbar, IonThumbnail } from '@ionic/angular/standalone';
-import { CommonModule, DatePipe} from '@angular/common';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonButton, IonText, IonSpinner, IonList, IonSearchbar, IonThumbnail } from '@ionic/angular/standalone';
+import { CommonModule} from '@angular/common';
 import { WeatherService } from '../services/weather.service';
 
 @Component({
@@ -15,23 +15,23 @@ export class Tab2Page {
   error: string | null = null;
   forecastList: any[] = [];
 
+  // struktura pro seskupeny forecast podle dni
   groupedForecast: { date: string, items: any[] }[] = [];
 
   constructor(private weatherService: WeatherService) {}
 
+  // aktualizuje lokalni promennou city pri psani inputu
   onCityInput(event: any) {
     const value = event.detail?.value ?? '';
     this.city = value;
-    console.log('Tab2 onCityInput, city =', this.city);
   }
 
+  // Nacte predpoved pocasi pro zadane mesto
   loadForecast() {
-    console.log('loadForecast() zavolána, city =', this.city);
-
     this.error = null;
 
     if (!this.city || this.city.trim().length === 0) {
-      this.error = 'Zadej název města.';
+      this.error = 'Zadej nazev mesta.';
       return;
     }
 
@@ -39,37 +39,34 @@ export class Tab2Page {
     this.forecastList = [];
     this.groupedForecast = [];
 
-    this.weatherService.getForecast(this.city.trim())
+    this.weatherService.getForecast(this.city.trim()) // nacteni predpovedi z API
       .subscribe({
         next: (data) => {
-          console.log('Forecast data:', data);
-          // OpenWeather vrací pole v data.list
           this.forecastList = data.list || [];
-          this.groupForecastByDay();
+          this.groupForecastByDay(); // seskupeni dat podle dne
           this.loading = false;
         },
         error: (err) => {
-          console.error('Chyba forecast API:', err);
-          this.error = 'Nepodařilo se načíst předpověď. Zkontroluj název města nebo připojení.';
+          this.error = 'Nepodarilo se nacist predpoved. Zkontroluj nazev mesta nebo pripojeni.';
           this.loading = false;
         }
       });
     }
-      private groupForecastByDay() {
-        const map = new Map<string, any[]>();
-    
-        for (const item of this.forecastList) {
-          // OpenWeather poskytuje dt_txt jako "YYYY-MM-DD HH:mm:ss"
-          const dtTxt: string = item.dt_txt ?? '';
-          const day = dtTxt.split(' ')[0]; // "YYYY-MM-DD"
-          if (!map.has(day)) map.set(day, []);
-          map.get(day)!.push(item);
-        }
-    
-        // transform to array and sort by date ascending
-        this.groupedForecast = Array.from(map.entries())
-          .map(([date, items]) => ({ date, items }))
-          .sort((a, b) => a.date.localeCompare(b.date));
-      }
-    
+
+  // Seskupeni forecastList podle dnu
+  private groupForecastByDay() {
+    const map = new Map<string, any[]>();
+
+    for (const item of this.forecastList) {
+      const dtTxt: string = item.dt_txt ?? '';
+      const day = dtTxt.split(' ')[0]; // "YYYY-MM-DD"
+      if (!map.has(day)) map.set(day, []);
+      map.get(day)!.push(item);
+    }
+
+    this.groupedForecast = Array.from(map.entries())
+      .map(([date, items]) => ({ date, items }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }
+
 }

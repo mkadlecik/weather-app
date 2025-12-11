@@ -16,7 +16,7 @@
     <p class="ion-margin-top">{{ error }}</p>
   </ion-text>
 
-  <!-- OBLÍBENÉ -->
+  <!-- oblibene -->
   <ion-list *ngIf="favorites.length && !loading">
     <ion-list-header>
       Oblíbená města
@@ -27,14 +27,14 @@
         {{ city }}
       </ion-label>
 
-      <!-- tlačítko pro smazání z oblíbených -->
+      <!-- tlacitko pro smazani z oblibenych -->
       <ion-button fill="clear" slot="end" (click)="removeFavorite(city); $event.stopPropagation()">
         <ion-icon [icon]="trash"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-list>
 
-  <!-- HISTORIE -->
+  <!-- historie vyhledavani -->
   <ion-list *ngIf="history.length && !loading">
     <ion-list-header>
       Naposledy hledaná města
@@ -47,12 +47,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button
-    expand="block"
-    color="medium"
-    class="ion-margin-top"
-    (click)="clearHistory()"
-    [disabled]="!history.length || loading">
+  <ion-button expand="block" color="medium" class="ion-margin-top" (click)="clearHistory()" [disabled]="!history.length || loading">
     Smazat historii
   </ion-button>
 

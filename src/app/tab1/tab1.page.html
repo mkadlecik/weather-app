@@ -6,6 +6,7 @@
 
 <ion-content fullscreen="true" class="ion-padding">
 
+  <!-- searchbar pro vyhledani pocasi -->
   <ion-item>
     <ion-searchbar
       placeholder="Hledat město..."
@@ -24,7 +25,7 @@
 
   <ion-spinner *ngIf="loading" class="ion-margin-top"></ion-spinner>
 
-  <!-- KARTA S POČASÍM -->
+  <!-- karta s pocasim -->
   <ion-card class="ion-margin-top" *ngIf="currentWeather && !loading">
     <ion-card-header>
       <ion-card-title>
@@ -35,7 +36,7 @@
         {{ currentWeather.weather[0].description }}
       </ion-card-subtitle>
   
-      <!-- tlačítko pro oblíbené -->
+      <!-- tlacitko favorite -->
       <ion-button
           fill="clear"
           size="small"
@@ -47,7 +48,7 @@
     </ion-card-header>
   
     <ion-card-content>
-      <!-- icon -->
+      <!-- ikona aktualniho pocasi -->
       <img *ngIf="currentWeather.weather && currentWeather.weather.length"
       [src]="'https://openweathermap.org/img/wn/' + currentWeather.weather[0].icon + '@4x.png'"
       alt="weather icon"
